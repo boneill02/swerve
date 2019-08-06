@@ -3,7 +3,7 @@
 TARGET=i386-elf
 GCC_VERSION=9.1.0
 BINUTILS_VERSION=2.32
-[ -z "$MAKEFLAGS ] && MAKEFLAGS="$1"
+[ -z "$MAKEFLAGS" ] && MAKEFLAGS="$1"
 
 curl -O https://ftp.gnu.org/gnu/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.gz
 curl -O https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VERSION.tar.gz
