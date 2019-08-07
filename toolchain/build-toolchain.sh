@@ -1,29 +1,44 @@
 #!/bin/sh
 
-TARGET=i386-elf
-GCC_VERSION=9.1.0
-BINUTILS_VERSION=2.32
-[ -z "$MAKEFLAGS" ] && MAKEFLAGS="$1"
+# getopt
 
-curl -O https://ftp.gnu.org/gnu/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.gz
-curl -O https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VERSION.tar.gz
+# -- variables --
+[ -z "$TARGET" ] && TARGET=i386-elf
+[ -z "$GCC_VERSION" ] && GCC_VERSION=9.1.0
+[ -z "$BINUTILS_VERSION" ] && BINUTILS_VERSION=2.32
+[ -z "$MAKEFLAGS" ] && MAKEFLAGS="-j3"
 
-gunzip binutils-$BINUTILS_VERSION.tar.gz
-gunzip gcc-$GCC_VERSION.tar.gz
+# -- functions --
+build_binutils() { \
+	echo "Downloading binutils tarball"
+	curl -O https://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VERSION.tar.gz >/dev/null 2>/dev/null
+	echo "Extracting binutils tarball"
+	gunzip binutils-$BINUTILS_VERSION.tar.gz
+	tar -xf binutils-$BINUTILS_VERSION.tar
+	rm binutils-$BINUTILS_VERSION.tar
 
-tar -xf binutils-$BINUTILS_VERSION.tar
-tar -xf gcc-$GCC_VERSION.tar
+	echo "Building binutils for $TARGET"
+	mkdir build-binutils-$BINUTILS_VERSION
+	cd build-binutils-$BINUTILS_VERSION
+	../binutils-$BINUTILS_VERSION/configure --target=$TARGET --disable-werror
+	MAKEFLAGS=$MAKEFLAGS make && sudo make install
+}
 
-mkdir build-binutils-$BINUTILS_VERISON
-cd build-binutils-$BINUTILS_VERSION
-../binutils-$BINUTILS_VERSION/configure --target=$TARGET --disable-werror
-make
-sudo make install
+build_gcc() { \
+	echo "Downloading gcc tarball"
+	curl -O https://ftp.gnu.org/gnu/gcc/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.gz >/dev/null 2>/dev/null
+	echo "Extracting gcc tarball"
+	gunzip gcc-$GCC_VERSION.tar.gz
+	tar -xf gcc-$GCC_VERSION.tar
+	rm gcc-$GCC_VERSION.tar
 
-cd ..
-mkdir build-gcc-$GCC_VERSION
-cd build-gcc-$GCC_VERSION
-../gcc-$GCC_VERSION/configure --target=$TARGET --enable-languages=c
-make all-gcc
-sudo make install-gcc
-cd ..
+	echo "Building gcc for $TARGET"
+	mkdir build-gcc-$GCC_VERSION
+	cd build-gcc-$GCC_VERSION
+	../gcc-$GCC_VERSION/configure --target=$TARGET --enable-languages=c
+	MAKEFLAGS=$MAKEFLAGS make all-gcc && sudo make install-gcc
+}
+
+# -- "actual script" --
+[ -z "$(which i386-elf-as)" ] && build_binutils
+[ -z "$(which i386-elf-gcc)" ] && build_gcc

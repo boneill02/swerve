@@ -12,7 +12,7 @@ AS=$(ARCH_PREFIX)-as
 CC=$(ARCH_PREFIX)-gcc
 LD=$(CC)
 ASFLAGS=-c -w
-CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\""
+CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG="$(DEBUG)"
 CFLAGS=-c -g -w -O2 -ffreestanding -std=c89 -pedantic $(CPPFLAGS) -I$(SRC_DIR)/drivers
 LDFLAGS=-ffreestanding -fno-stack-protector -fPIC -nostdlib -T$(ARCH_SRC_DIR)/linker.ld
 TARGET=$(ARCH)-swerve-$(VERSION)
@@ -55,4 +55,7 @@ run-qemu: $(TARGET)
 run-qemu-grub: $(TARGET).img
 	qemu-system-$(ARCH) -serial stdio $(TARGET).img
 
-.PHONY: all clean dist grub-image run-qemu run-qemu-grub $(TARGET) $(TARGET).img
+toolchain:
+	cd toolchain && ./build-toolchain.sh
+
+.PHONY: all clean dist grub-image run-qemu run-qemu-grub toolchain $(TARGET) $(TARGET).img
