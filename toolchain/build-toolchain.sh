@@ -40,5 +40,12 @@ build_gcc() { \
 }
 
 # -- "actual script" --
-[ -z "$(which i386-elf-as)" ] && build_binutils
-[ -z "$(which i386-elf-gcc)" ] && build_gcc
+echo "You must enter your password so this can (hopefully) install without any more user input"
+sudo ls >/dev/null
+
+echo "Now we will check what we need to install"
+[ -z "$(which i386-elf-as)" ]  && BINUTILS="y"
+[ -z "$(which i386-elf-gcc)" ] && GCC="y"
+
+[ -z $BINUTILS ] || build_binutils
+[ -z $GCC ] || build_gcc
