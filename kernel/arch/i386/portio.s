@@ -1,12 +1,12 @@
-.global inp
-.global outp
+.global inb
+.global outb
 
-inp:
+inb:
 	mov 4(%esp),      	%dx
 	in 	%dx,            %al
 	ret
 
-outp:
+outb:
 	mov 4(%esp), 	    %edx
 	mov 8(%esp),        %al
 	out %al,            %dx 

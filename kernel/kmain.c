@@ -2,7 +2,8 @@
 
 #include <stdbool.h>
 
-#include "drivers/rs232.h"
+#include "drivers/terminal.h"
+#include "drivers/serial/rs232.h"
 #include "mm/wmalloc.h"
 
 
@@ -79,6 +80,7 @@ kmain(void)
 	/* print welcome */
 	terminal_print("Version: ");
 	terminal_println(version_info);
+	terminal_disable_cursor();
 	if (DEBUG)
 		rs232_println("* Printed version info to VGA");
 

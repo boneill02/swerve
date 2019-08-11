@@ -3,19 +3,19 @@
 void
 rs232_initialize()
 {
-	outp(PORT + 1, 0x00);
-	outp(PORT + 3, 0x80);
-	outp(PORT + 0, 0x03);
-	outp(PORT + 1, 0x00);
-	outp(PORT + 3, 0x03);
-	outp(PORT + 2, 0xC7);
-	outp(PORT + 4, 0x0B);
+	outb(PORT + 1, 0x00);
+	outb(PORT + 3, 0x80);
+	outb(PORT + 0, 0x03);
+	outb(PORT + 1, 0x00);
+	outb(PORT + 3, 0x03);
+	outb(PORT + 2, 0xC7);
+	outb(PORT + 4, 0x0B);
 }
 
 int
 rs232_received()
 {
-	return inp(PORT + 5) & 1;
+	return inb(PORT + 5) & 1;
 }
  
 char
@@ -23,7 +23,7 @@ rs232_getchar()
 {
 	while (rs232_received() == 0);
  
-	return inp(PORT);
+	return inb(PORT);
 }
 
 void
@@ -34,7 +34,7 @@ rs232_getline(char *str)
 	while (receiving) {
 		while (rs232_received() == 0);
 
-		str[i] = inp(PORT);
+		str[i] = inb(PORT);
 		if (str[i] == '\n' || str[i] == '\0')
 			receiving = 0;
 
@@ -44,13 +44,13 @@ rs232_getline(char *str)
 }
 
 int rs232_is_transmit_empty() {
-	return inp(PORT + 5) & 0x20;
+	return inb(PORT + 5) & 0x20;
 }
  
 void rs232_putchar(char a) {
 	while (rs232_is_transmit_empty() == 0);
 
-	outp(PORT,a);
+	outb(PORT, a);
 }
 
 void
