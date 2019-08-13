@@ -21,8 +21,8 @@ all: $(TARGET)
 
 clean:
 	@echo cleaning
-	@rm -rf $(TARGET) $(TARGET).img $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
-		$(wildcard $(ARCH_SRC_DIR)/drivers/*.o)
+	@rm -rf $(TARGET) $(TARGET).iso grubimg $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
+		$(wildcard $(ARCH_SRC_DIR)/drivers/*.o) $(wildcard $(SRC_DIR)/mm/*.o)
 
 dist: clean
 	mkdir $(TARGET)
@@ -43,19 +43,23 @@ $(TARGET): $(C_SOURCES) $(AS_SOURCES)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 	@echo CC $^
 
-$(TARGET).img: $(TARGET)
-	sudo IMAGE=$(TARGET) ./scripts/mkgrubimg.sh
-	sudo chown $(USER) $(TARGET).img
+$(TARGET).iso: $(TARGET)
+	mkdir -p grubimg/boot/grub
+	cp -f $(TARGET) grubimg/boot/swerve
+	cp -f etc/grub.cfg.default grubimg/boot/grub/grub.cfg
+	sudo grub-mkrescue -o $(TARGET).iso grubimg
+	sudo chown $(USER) $(TARGET).iso
+	rm -rf grubimg
 
-grub-image: $(TARGET).img
+grub-image: $(TARGET).iso
 
 run-qemu: $(TARGET)
 	qemu-system-$(ARCH) -serial stdio -kernel $(TARGET)
 
-run-qemu-grub: $(TARGET).img
-	qemu-system-$(ARCH) -serial stdio $(TARGET).img
+run-qemu-grub: $(TARGET).iso
+	qemu-system-$(ARCH) -serial stdio $(TARGET).iso
 
 toolchain:
 	cd toolchain && ./build-toolchain.sh
 
-.PHONY: all clean dist grub-image run-qemu run-qemu-grub toolchain $(TARGET) $(TARGET).img
+.PHONY: all clean dist grub-image run-qemu run-qemu-grub toolchain $(TARGET) $(TARGET).iso
