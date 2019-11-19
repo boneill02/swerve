@@ -74,23 +74,27 @@ kmain(void)
 		rs232_println("* Initialized RS-232 driver");
 
 	terminal_initialize();
-	if (DEBUG)
-		rs232_println("* Initialized VGA mode driver");
+#ifdef DEBUG
+	rs232_println("* Initialized VGA mode driver");
+#endif
 
 	/* print welcome */
 	terminal_print("Version: ");
 	terminal_println(version_info);
 	terminal_disable_cursor();
-	if (DEBUG)
-		rs232_println("* Printed version info to VGA");
+#ifdef DEBUG
+	rs232_println("* Printed version info to VGA");
+#endif
 
 	/* initialize allocator */
 	wminit(KERN_MEMORY_BASE, KERN_MEMORY_CEILING);
-	if (DEBUG)
-		rs232_println("* Initialized watermark memory allocator");
+#ifdef DEBUG
+	rs232_println("* Initialized watermark memory allocator");
+#endif
 
 	/* start RS-232 shell */
-	if (DEBUG)
-		rs232_println(". Starting RS-232 shell");
+#ifdef DEBUG
+	rs232_println(". Starting RS-232 shell");
+#endif
 	rs232_shell();
 }

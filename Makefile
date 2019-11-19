@@ -8,13 +8,13 @@ C_SOURCES=$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(ARCH_SRC_DIR)/drivers/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/mm/*.c))
 
-AS=$(ARCH_PREFIX)-as
-CC=$(ARCH_PREFIX)-gcc
+AS=as
+CC=gcc
 LD=$(CC)
-ASFLAGS=-c -w
-CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG="$(DEBUG)"
-CFLAGS=-c -g -w -O2 -ffreestanding -std=c89 -pedantic $(CPPFLAGS) -I$(SRC_DIR)/drivers
-LDFLAGS=-ffreestanding -fno-stack-protector -fPIC -nostdlib -T$(ARCH_SRC_DIR)/linker.ld
+ASFLAGS=-c -w -32
+CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG
+CFLAGS=-c -g -w -O2 -ffreestanding -fno-pie -std=c89 -pedantic $(CPPFLAGS) -I$(SRC_DIR)/drivers -m32
+LDFLAGS=-ffreestanding -fno-stack-protector -fPIC -nostdlib -T$(ARCH_SRC_DIR)/linker.ld -m32
 TARGET=$(ARCH)-swerve-$(VERSION)
 
 all: $(TARGET)
