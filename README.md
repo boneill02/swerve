@@ -1,6 +1,7 @@
 # swerve
 
-A suckless-inspired UNIX-like operating system for i386.
+A suckless-inspired Unix-like operating system originally designed for i386
+machines.
 
 ## Features
 
