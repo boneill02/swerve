@@ -21,7 +21,7 @@ machines.
 ## Building
 
 1. Build and install the toolchain to your $PATH: `./toolchain/build-toolchain.sh -j3` (note: replace the 3 with the number of cores you have plus 1)
-2. Run `make`
+1. Run `make`
 
 ## Run in QEMU
 
