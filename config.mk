@@ -4,3 +4,12 @@ VERSION = 0.01a-dev
 ARCH = i386
 ARCH_PREFIX = $(ARCH)-elf
 DEBUG = 1
+
+AS=$(ARCH_PREFIX)-as
+CC=$(ARCH_PREFIX)-gcc
+LD=$(CC)
+ASFLAGS=-Wall
+CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG
+CFLAGS= $(CPPFLAGS) -Wall -O3 -ffreestanding -fno-pie -std=c89 -pedantic -I$(SRC_DIR)/drivers
+LDFLAGS=-ffreestanding -fno-stack-protector -fPIC -nostdlib -T$(ARCH_SRC_DIR)/linker.ld
+TARGET=$(ARCH)-swerve-$(VERSION)

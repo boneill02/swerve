@@ -8,48 +8,42 @@ C_SOURCES=$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(ARCH_SRC_DIR)/drivers/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/mm/*.c))
 
-AS=as
-CC=gcc
-LD=$(CC)
-ASFLAGS=-c -w -32
-CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG
-CFLAGS=-c -g -w -O2 -ffreestanding -fno-pie -std=c89 -pedantic $(CPPFLAGS) -I$(SRC_DIR)/drivers -m32
-LDFLAGS=-ffreestanding -fno-stack-protector -fPIC -nostdlib -T$(ARCH_SRC_DIR)/linker.ld -m32
-TARGET=$(ARCH)-swerve-$(VERSION)
-
 all: $(TARGET)
 
 clean:
-	@echo cleaning
+	@echo CLEANING
 	@rm -rf $(TARGET) $(TARGET).iso grubimg $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
 		$(wildcard $(ARCH_SRC_DIR)/drivers/*.o) $(wildcard $(SRC_DIR)/mm/*.o)
+	@echo DONE
 
 dist: clean
-	mkdir $(TARGET)
-	cp -R kernel/ scripts/ toolchain/ config.mk LICENSE Makefile README.md $(TARGET)
-	tar -cf $(TARGET).tar $(TARGET)
-	rm -rf $(TARGET)
-	gzip $(TARGET).tar
+	@mkdir $(TARGET)
+	@cp -R kernel/ scripts/ toolchain/ config.mk LICENSE Makefile README.md $(TARGET)
+	@tar -cf $(TARGET).tar $(TARGET)
+	@rm -rf $(TARGET)
+	@gzip $(TARGET).tar
+	@echo DIST
 
 $(TARGET): $(C_SOURCES) $(AS_SOURCES)
-	@$(LD) $^ -o $@ $(LDFLAGS)
+	@$(LD) $(LDFLAGS) -o $@ $^
 	@echo LD $@
 
 %.o: %.s
-	@$(AS) $(ASFLAGS) -o $@ $^
+	@$(AS) $(ASFLAGS) -o $@ -c $^
 	@echo AS $^
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $^
 	@echo CC $^
 
 $(TARGET).iso: $(TARGET)
-	mkdir -p grubimg/boot/grub
-	cp -f $(TARGET) grubimg/boot/swerve
-	cp -f etc/grub.cfg.default grubimg/boot/grub/grub.cfg
-	sudo grub-mkrescue -o $(TARGET).iso grubimg
-	sudo chown $(USER) $(TARGET).iso
-	rm -rf grubimg
+	@mkdir -p grubimg/boot/grub
+	@cp -f $(TARGET) grubimg/boot/swerve
+	@cp -f etc/grub.cfg.default grubimg/boot/grub/grub.cfg
+	@sudo grub-mkrescue -o $(TARGET).iso grubimg
+	@sudo chown $(USER) $(TARGET).iso
+	@rm -rf grubimg
+	@echo MKGRUBCFG
 
 grub-image: $(TARGET).iso
 
