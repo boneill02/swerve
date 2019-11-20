@@ -21,7 +21,7 @@
 
 #include <stdbool.h>
 
-#include "drivers/terminal.h"
+#include "drivers/tty.h"
 #include "drivers/serial/rs232.h"
 #include "mm/wmalloc.h"
 
