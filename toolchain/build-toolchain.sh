@@ -43,8 +43,8 @@ build_gcc() { \
 echo "You must enter your password so this can (hopefully) install without any more user input"
 sudo ls >/dev/null
 
-[ -z "$(which i386-elf-as)" ]  && BINUTILS="y"
-[ -z "$(which i386-elf-gcc)" ] && GCC="y"
+[ -z "$(which $ARCH-as)" ]  && BINUTILS="y"
+[ -z "$(which $ARCH-gcc)" ] && GCC="y"
 
 [ -z $BINUTILS ] || build_binutils && echo "GNU Binutils is already installed for $TARGET"
 [ -z $GCC ] || build_gcc && echo "GCC is already installed for $TARGET"
