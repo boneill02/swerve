@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "terminal.h"
+#include "tty.h"
 
 
 size_t terminal_row;
