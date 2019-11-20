@@ -13,8 +13,11 @@ machines.
 * GNU Binutils 2.32+
 * GCC 9.1+ (only C support is necessary)
 * GNU Make
-* A POSIX shell (`dash`, `bash`)
-* fdisk
+* A POSIX shell (`dash`, `bash`...)
+
+## Prerequisites for running in a VM or creating a GRUB ISO image
+
+* fdisk (from util-linux)
 * GNU GRUB
 * QEMU
 
