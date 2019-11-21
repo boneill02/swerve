@@ -16,7 +16,8 @@ all: $(TARGET)
 
 clean:
 	@echo CLEANING
-	@rm -rf $(TARGET) $(TARGET).iso grubimg $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
+	@rm -rf $(LIBC_TARGET) $(shell find $(LIBC_DIR) | grep "\.o") $(TARGET) \
+		$(TARGET).iso grubimg $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
 		$(wildcard $(ARCH_SRC_DIR)/drivers/*.o) $(wildcard $(SRC_DIR)/mm/*.o)
 	@echo DONE
 
@@ -28,20 +29,23 @@ dist: clean
 	@gzip $(TARGET).tar
 	@echo DIST
 
-$(TARGET): $(LIBC_SOURCES) $(C_SOURCES) $(AS_SOURCES)
-	@$(LD) $(LDFLAGS) -o $@ $^
+$(TARGET): $(LIBC_TARGET) $(C_SOURCES) $(AS_SOURCES)
+	@$(LD) -static -L. $(LDFLAGS) -o $@ $^ -lc
 	@echo LD $@
 
 $(LIBC_TARGET): $(LIBC_SOURCES)
-	@$(LD) $(LDFLAGS) -static -o $(LIBC_TARGET) $(LIBC_SOURCES)
+	@$(AR) rcs $(LIBC_TARGET) $(LIBC_SOURCES)
+	@echo AR $@
+	@$(RANLIB) $@
+	@echo RANLIB $@
 
 %.o: %.s
 	@$(AS) $(ASFLAGS) -o $@ -c $^
-	@echo AS $^
+	@echo AS $@
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $^
-	@echo CC $^
+	@echo CC $@
 
 $(TARGET).iso: $(TARGET)
 	@mkdir -p grubimg/boot/grub
