@@ -1,12 +1,13 @@
 # swerve
 
-A suckless-inspired Unix-like operating system originally designed for i386
-machines.
+A suckless-inspired Unix-like kernel originally designed for i386 machines.
 
-## Features
+## Principles
 
-* A basic memory allocator
-* A RS-232 driver and VGA text mode driver
+1. The program should be free software.
+2. The program should be as efficient as possible.
+3. The program should be as legible as possible.
+4. The program should be as small as possible.
 
 ## Prerequisites for building
 
@@ -15,16 +16,18 @@ machines.
 * GNU Make
 * A POSIX shell (`dash`, `bash`...)
 
-## Prerequisites for running in a VM or creating a GRUB ISO image
+## Prerequisites for making a GRUB image
 
 * fdisk (from util-linux)
 * GNU GRUB
-* QEMU
 
 ## Building
 
-1. Build and install the toolchain to your $PATH: `./toolchain/build-toolchain.sh -j3` (note: replace the 3 with the number of cores you have plus 1)
-2. Run `make -j3` (note: same thing as above, you should change 3 with the number of cores you have plus 1)
+1. Build and install the toolchain to your $PATH:
+   `./toolchain/build-toolchain.sh -j3` (note: replace the 3 with the number of
+   cores you have plus 1)
+2. Run `make -j3` (note: same thing as above, you should change 3 with the
+   number of cores you have plus 1)
 
 ## Run in QEMU
 
