@@ -25,21 +25,6 @@
 
 const char *version_info = "swerve v" VERSION "-" ARCH;
 
-/* FIXME put strcmp in libc and use that instead */
-int streq(const char *s1, const char *s2)
-{
-	int i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0') {
-		if (s1[i] != s2[i])
-			return 0;
-		i++;
-	} 
-	if (s1[i] != '\0' || s2[i] != '\0')
-		return 0;
-
-	return 1;
-}
-
 void kmain(void)
 {
 	int i;
