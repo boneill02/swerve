@@ -10,7 +10,8 @@ LIBC_SOURCES=$(patsubst %.c, %.o, $(shell find $(LIBC_DIR) | grep "\.c"))
 AS_SOURCES=$(patsubst %.s, %.o, $(wildcard $(ARCH_SRC_DIR)/*.s))
 C_SOURCES=$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(ARCH_SRC_DIR)/drivers/*.c)) \
-	$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/mm/*.c))
+	$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/mm/*.c)) \
+	$(patsubst %.c, %.o, $(wildcard $(ARCH_SRC_DIR)/mm/*.c))
 
 all: $(TARGET)
 
