@@ -3,6 +3,10 @@ include config.mk
 SRC_DIR=kernel
 ARCH_SRC_DIR=$(SRC_DIR)/arch/$(ARCH)
 
+LIBC_DIR=libc
+LIBC_TARGET=libc.a
+LIBC_SOURCES=$(patsubst %.c, %.o, $(shell find $(LIBC_DIR) | grep "\.c"))
+
 AS_SOURCES=$(patsubst %.s, %.o, $(wildcard $(ARCH_SRC_DIR)/*.s))
 C_SOURCES=$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(ARCH_SRC_DIR)/drivers/*.c)) \
@@ -27,6 +31,9 @@ dist: clean
 $(TARGET): $(C_SOURCES) $(AS_SOURCES)
 	@$(LD) $(LDFLAGS) -o $@ $^
 	@echo LD $@
+
+$(LIBC_TARGET): $(LIBC_SOURCES)
+	@$(LD) $(LDFLAGS) -static -o $(LIBC_TARGET) $(LIBC_SOURCES)
 
 %.o: %.s
 	@$(AS) $(ASFLAGS) -o $@ -c $^
