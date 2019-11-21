@@ -44,16 +44,6 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
-/* FIXME put in libc */
-size_t strlen(const char *str)
-{
-	size_t len;
-	len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
-
 static uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
 	return fg | bg << 4;

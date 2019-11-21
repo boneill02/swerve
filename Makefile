@@ -28,7 +28,7 @@ dist: clean
 	@gzip $(TARGET).tar
 	@echo DIST
 
-$(TARGET): $(C_SOURCES) $(AS_SOURCES)
+$(TARGET): $(LIBC_SOURCES) $(C_SOURCES) $(AS_SOURCES)
 	@$(LD) $(LDFLAGS) -o $@ $^
 	@echo LD $@
 
