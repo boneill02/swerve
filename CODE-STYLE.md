@@ -2,7 +2,7 @@
 
 Contributors should aim to stick to this style when submitting code for swerve.
 This is adapted from the [suckless.org coding
-style](https://suckless.org/coding_style/)
+style](https://suckless.org/coding_style/).
 
 ## 1. File Layout
 
