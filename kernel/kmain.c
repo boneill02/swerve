@@ -17,17 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include <string.h>
+
 #include "kmain.h"
 
 #include "drivers/tty.h"
 #include "drivers/serial/rs232.h"
-#include "mm/wmalloc.h"
+#include "mm/kmalloc.h"
 
 const char *version_info = "swerve v" VERSION "-" ARCH;
 
 void kmain(void)
 {
-	int i;
 
 	/* initialize drivers */
 	rs232_initialize();
@@ -49,8 +50,8 @@ void kmain(void)
 #endif
 
 	/* initialize allocator */
-	wminit(KERN_MEMORY_BASE, KERN_MEMORY_CEILING);
+	kmeminit();
 #ifdef DEBUG
-	rs232_println("* Initialized watermark memory allocator");
+	rs232_println("* Initialized memory allocator");
 #endif
 }

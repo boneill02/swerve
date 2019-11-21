@@ -16,29 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+#ifndef KMALLOC_H
+#define KMALLOC_H
 
-#include "wmalloc.h"
-
+#include <stdint.h>
 #include <stddef.h>
 
-size_t wm_base, wm_top, wm_ceiling;
-int wm_initialized = 0;
-
-void wminit(size_t base, size_t ceiling)
-{
-	wm_base = base;
-	wm_top = base;
-	wm_ceiling = ceiling;
-
-	wm_initialized = 1;
-}
-
-void *wmalloc(size_t num)
-{
-	if (wm_initialized && (wm_top + num) < wm_ceiling) {
-		void *mem = &wm_top;
-		wm_top += num;
-		return mem;
-	}
-	return NULL;
-}
+void kmeminit();
+void *kmalloc(size_t size);
+void kfree(void *mem);
+#endif
