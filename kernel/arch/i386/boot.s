@@ -48,10 +48,10 @@ stack_top:
 _start:
 
 	# assign stack pointer
-  	mov $stack_top, %esp
-
+	mov $stack_top, %esp
+	
 	# start the actual kernel
-  	call kmain
+	call kmain
 
 	cli
 
