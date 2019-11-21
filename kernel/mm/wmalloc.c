@@ -24,8 +24,7 @@
 size_t wm_base, wm_top, wm_ceiling;
 bool wm_initialized = false;
 
-void
-wminit(size_t base, size_t ceiling)
+void wminit(size_t base, size_t ceiling)
 {
 	wm_base = base;
 	wm_top = base;
@@ -34,8 +33,7 @@ wminit(size_t base, size_t ceiling)
 	wm_initialized = true;
 }
 
-void *
-wmalloc(size_t num)
+void *wmalloc(size_t num)
 {
 	if (wm_initialized && (wm_top + num) < wm_ceiling) {
 		void *mem = &wm_top;
@@ -43,5 +41,4 @@ wmalloc(size_t num)
 		return mem;
 	}
 	return NULL;
-
 }

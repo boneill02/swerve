@@ -44,8 +44,7 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
-size_t
-strlen(const char *str)
+size_t strlen(const char *str)
 {
 	size_t len;
 	len = 0;
@@ -64,8 +63,7 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
   
-void
-terminal_initialize(void)
+void terminal_initialize(void)
 {
 	terminal_row = 0;
 	terminal_column = 0;
@@ -75,8 +73,7 @@ terminal_initialize(void)
 	terminal_clear();
 }
 
-void
-terminal_clear(void)
+void terminal_clear(void)
 {
 	size_t x, y;
 	for (y = 0; y < VGA_HEIGHT; y++) {
@@ -87,21 +84,18 @@ terminal_clear(void)
 	}
 }
 
-void
-terminal_setcolor(uint8_t color)
+void terminal_setcolor(uint8_t color)
 {
 	terminal_color = color;
 }
 
-void
-terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
+void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
-void
-terminal_putchar(char c)
+void terminal_putchar(char c)
 {
 	switch (c) {
 		case '\0':
@@ -121,8 +115,7 @@ terminal_putchar(char c)
 	}
 } 
 
-void
-terminal_print(const char *data)
+void terminal_print(const char *data)
 {
 	size_t i;
 	for (i = 0; i < strlen(data); i++) {
@@ -130,15 +123,13 @@ terminal_print(const char *data)
 	}
 }
 
-void
-terminal_println(const char *data)
+void terminal_println(const char *data)
 {
 	terminal_print(data);
 	terminal_putchar('\n');
 }
 
-void
-terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
@@ -147,15 +138,13 @@ terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 	outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
 }
 
-void
-terminal_disable_cursor(void)
+void terminal_disable_cursor(void)
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 }
 
-void
-terminal_put_cursor_at(uint8_t x, uint8_t y)
+void terminal_put_cursor_at(uint8_t x, uint8_t y)
 {
 	uint16_t pos = y * VGA_WIDTH + x;
 

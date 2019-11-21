@@ -25,11 +25,9 @@
 #include "drivers/serial/rs232.h"
 #include "mm/wmalloc.h"
 
-
 const char *version_info = "swerve-" VERSION "-" ARCH;
 
-bool
-streq(const char *s1, const char *s2)
+bool streq(const char *s1, const char *s2)
 {
 	int i = 0;
 	while (s1[i] != '\0' && s2[i] != '\0') {
@@ -43,8 +41,7 @@ streq(const char *s1, const char *s2)
 	return true;
 }
 
-void
-rs232_shell(void)
+void rs232_shell(void)
 {
 	char *input;
 	int i;
@@ -82,8 +79,7 @@ rs232_shell(void)
 	rs232_println("Bye!");
 }
 
-void
-kmain(void)
+void kmain(void)
 {
 	int i;
 
