@@ -19,10 +19,10 @@
 
 #include "wmalloc.h"
 
-#include <stdbool.h>
+#include <stddef.h>
 
 size_t wm_base, wm_top, wm_ceiling;
-bool wm_initialized = false;
+int wm_initialized = 0;
 
 void wminit(size_t base, size_t ceiling)
 {
@@ -30,7 +30,7 @@ void wminit(size_t base, size_t ceiling)
 	wm_top = base;
 	wm_ceiling = ceiling;
 
-	wm_initialized = true;
+	wm_initialized = 1;
 }
 
 void *wmalloc(size_t num)
