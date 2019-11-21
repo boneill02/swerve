@@ -46,8 +46,10 @@ void kmain(void)
 
 	/* initialize drivers */
 	rs232_initialize();
-	if (DEBUG)
-		rs232_println("* Initialized RS-232 driver");
+
+#ifdef DEBUG
+	rs232_println("* Initialized RS-232 driver");
+#endif
 
 	terminal_initialize();
 #ifdef DEBUG
