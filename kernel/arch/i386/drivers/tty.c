@@ -44,6 +44,7 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
+/* FIXME put in libc */
 size_t strlen(const char *str)
 {
 	size_t len;
