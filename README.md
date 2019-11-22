@@ -7,10 +7,10 @@ responsibility for damages caused by swerve (code is licensed with no warranty).
 
 ## Principles
 
-1. The program should be free software.
-1. The program should be as efficient as possible.
-1. The program should be as legible as possible.
-1. The program should be as small as possible.
+1. The program should be **free software**.
+1. The program should be as **efficient** as possible.
+1. The program should be as **legible** as possible.
+1. The program should be as **small** as possible.
 
 ## Prerequisites for building
 
