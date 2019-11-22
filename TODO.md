@@ -12,6 +12,8 @@
 1. Multitasking
 1. Users
 1. Networking
+1. OS Logo
+1. Figure out and implement necessary syscalls
 
 ## Drivers
 
