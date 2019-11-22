@@ -10,3 +10,4 @@
 7. Testing branch
 8. Detect memory amount
 9. CPU clock
+10. FAT-32 support
