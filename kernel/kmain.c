@@ -29,7 +29,6 @@ const char *version_info = "swerve v" VERSION "-" ARCH;
 
 void kmain(void)
 {
-
 	/* initialize drivers */
 	rs232_initialize();
 
