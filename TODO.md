@@ -1,13 +1,29 @@
 # TODO
 
+## General Improvement
+
+1. Userspace
 1. Better memory allocator (slab?) and paging
-2. Small libc for kernel
-3. PS/2 keyboard support
-4. Documentation
-5. Organization
-6. Let the user configure which drivers to include at compile time (curses menu
-   like Linux?)
-7. Testing branch
-8. Detect memory amount
-9. CPU clock
-10. FAT-32 support
+1. Improve libc (maybe give it its own git repo too)
+1. Documentation
+1. Let user configure which drivers to include at compile time (curses menu?)
+1. Testing branch
+1. Get memory amount
+1. Multitasking
+1. Users
+1. Networking
+
+## Drivers
+
+1. PS/2 keyboard
+1. Clock
+1. FAT-32
+1. Ext-2
+1. TTY
+1. SATA
+1. IDE
+1. NVMe
+1. Intel Integrated Graphics
+1. Sound Blaster 16
+1. PCI
+1. 802.11

@@ -6,9 +6,10 @@
 static int print(const char *data, size_t len)
 {
 	const unsigned char *bytes = (const unsigned char *) data;
-	for (size_t i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++) {
 		if (putchar(bytes[i]) == EOF)
 			return 0;
+	}
 	return 1;
 }
 
