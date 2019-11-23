@@ -27,10 +27,10 @@
 #define VGA_HEIGHT 25
 
 void terminal_initialize(void);
-void terminal_setcolor(uint8_t color);
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
-void terminal_putchar(char c);
-void terminal_print(const char *str);
-void terminal_println(const char *str);
+void terminal_setcolor(uint8_t);
+void terminal_putentryat(char, uint8_t, size_t, size_t);
+void terminal_putchar(char);
+void terminal_print(const char *);
+void terminal_println(const char *);
 
 #endif
