@@ -16,13 +16,52 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-#ifndef KMALLOC_H
-#define KMALLOC_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
-void kmeminit();
-void *kmalloc(size_t size);
-void kfree(void *mem);
-#endif
+struct MemNode {
+	char free;
+	void *ptr;
+	size_t size;
+	struct MemNode *next;
+};
+
+struct MemNode *top;
+
+void meminit(void)
+{
+	top = KERN_MEMORY_BASE;
+	memset(top, 0, sizeof(struct MemNode));
+	top->ptr = PROC_MEMORY_BASE;
+}
+
+void *malloc(size_t size)
+{
+	struct MemNode *node = top;
+
+	while (node->next != NULL) {
+		node = node->next;
+		if (node->size >= size) {
+			return node->ptr;
+		}
+	}
+
+	node->next = (struct MemNode *) node->ptr + sizeof(struct MemNode);
+	node->next->ptr = node->ptr + node->size;
+	node = node->next;
+	memset(node, 0, sizeof(struct MemNode));
+	node->size = size;
+	return node->ptr;
+}
+
+void free(void *mem)
+{
+	struct MemNode *node = top;
+
+	while (node->ptr != mem && node != NULL)
+		node = node->next;
+
+	return node;
+}
