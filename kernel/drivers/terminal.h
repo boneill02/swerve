@@ -17,40 +17,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <string.h>
+#ifndef DRIVERS_TERMINAL_H
+#define DRIVERS_TERMINAL_H
 
-#include "kmain.h"
+#include <stddef.h>
+#include <stdint.h>
 
-#include "drivers/terminal.h"
-#include "drivers/serial/rs232.h"
-#include "mm/kmalloc.h"
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
 
-const char *version_info = "swerve v" VERSION "-" ARCH;
+void terminal_initialize(void);
+void terminal_setcolor(uint8_t color);
+void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
+void terminal_putchar(char c);
+void terminal_print(const char *str);
+void terminal_println(const char *str);
 
-void kmain(void)
-{
-	/* initialize drivers */
-	rs232_initialize();
-
-#ifdef DEBUG
-	rs232_println("* Initialized RS-232 driver");
 #endif
-
-	terminal_initialize();
-#ifdef DEBUG
-	rs232_println("* Initialized VGA mode driver");
-#endif
-
-	/* print welcome */
-	terminal_println(version_info);
-	terminal_disable_cursor();
-#ifdef DEBUG
-	rs232_println("* Printed version info to VGA");
-#endif
-
-	/* initialize allocator */
-	kmeminit();
-#ifdef DEBUG
-	rs232_println("* Initialized memory allocator");
-#endif
-}

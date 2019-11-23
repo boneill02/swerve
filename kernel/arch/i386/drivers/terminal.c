@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "tty.h"
+#include "terminal.h"
 
 #include <string.h>
 
