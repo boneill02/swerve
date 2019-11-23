@@ -16,19 +16,19 @@ void tty_init(void)
 		ttys[i]->controller.buffer = malloc(8192);
 		((Device *)ttys[i])->read = tty_read;
 		((Device *)ttys[i])->write = tty_write;
-		((Device *)ttys[i])->update = tty_update;
 	}
 }
 
 void *tty_read(Device *tty, size_t len)
 {
 	return ((TTY_Device *) tty)->controller.buffer + strlen(((TTY_Device *) tty)->controller.buffer) - len;
+	tty_update(tty);
 }
 
 void tty_write(Device *tty, char *str, size_t len)
 {
 	strncpy(((TTY_Device *) tty)->controller.buffer, str, len);
-	tty->update(tty);
+	tty_update(tty);
 }
 
 void tty_update(Device *tty)
