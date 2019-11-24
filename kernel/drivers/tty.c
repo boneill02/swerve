@@ -25,9 +25,9 @@ void *tty_read(Device *tty, size_t len)
 	tty_update(tty);
 }
 
-void tty_write(Device *tty, char *str, size_t len)
+void tty_write(Device *tty, void *str, size_t len)
 {
-	strncpy(((TTY_Device *) tty)->controller.buffer, str, len);
+	strncpy(((TTY_Device *) tty)->controller.buffer, (char *) str, len);
 	tty_update(tty);
 }
 

@@ -23,7 +23,7 @@ TTY_Device *ttys[MAX_TTYS];
 
 void tty_init(void);
 void *tty_read(Device *, size_t);
-void tty_write(Device *, char *, size_t);
+void tty_write(Device *, void *, size_t);
 void tty_update(Device *);
 
 #endif
