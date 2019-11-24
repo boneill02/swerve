@@ -30,12 +30,14 @@ struct MemNode {
 
 struct MemNode *top;
 
-void meminit(void)
+#ifdef __is_libk
+void mem_init(void)
 {
-	top = KERN_MEMORY_BASE;
+	top = (struct MemNode *) KERN_MEMORY_BASE;
 	memset(top, 0, sizeof(struct MemNode));
-	top->ptr = PROC_MEMORY_BASE;
+	top->ptr = (void *) PROC_MEMORY_BASE;
 }
+#endif
 
 void *malloc(size_t size)
 {
@@ -49,7 +51,7 @@ void *malloc(size_t size)
 	}
 
 	node->next = (struct MemNode *) node->ptr + sizeof(struct MemNode);
-	node->next->ptr = node->ptr + node->size;
+	node->next->ptr = (void *) (((size_t) node->ptr) + node->size);
 	node = node->next;
 	memset(node, 0, sizeof(struct MemNode));
 	node->size = size;
@@ -62,6 +64,4 @@ void free(void *mem)
 
 	while (node->ptr != mem && node != NULL)
 		node = node->next;
-
-	return node;
 }

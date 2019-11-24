@@ -67,5 +67,4 @@ int printf(const char * restrict format, ...)
 
 	va_end(parameters);
 	return written;
-			const char *format_begun_at = format++;
 }

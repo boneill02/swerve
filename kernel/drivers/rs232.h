@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-void rs232_initialize(void);
+void rs232_init(void);
 int rs232_received(void);
 char rs232_getchar(void);
 void rs232_getline(char *dest);

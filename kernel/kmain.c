@@ -18,22 +18,23 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "kmain.h"
 
 #include "drivers/terminal.h"
 #include "drivers/tty.h"
-#include "drivers/serial/rs232.h"
+#include "drivers/rs232.h"
 
 const char *version_info = "swerve v" VERSION "-" ARCH;
 
 void kmain(void)
 {
 	/* initialize drivers */
-	meminit();
-	rs232_initialize();
-	terminal_initialize();
+	mem_init();
+	rs232_init();
+	terminal_init();
 	tty_init();
 
 #ifdef DEBUG

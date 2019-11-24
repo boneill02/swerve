@@ -17,9 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "rs232.h"
+
+#include "../portio.h"
+
 #define PORT 0x3f8   /* COM1 */
  
-void rs232_initialize()
+void rs232_init()
 {
 	outb(PORT + 1, 0x00);
 	outb(PORT + 3, 0x80);

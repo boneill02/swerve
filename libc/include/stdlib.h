@@ -9,6 +9,10 @@
 #define KERN_MEMORY_BASE    0x10000
 #define KERN_MEMORY_CEILING 0xBFFFFFFF
  
+#ifdef __is_libk
+void mem_init(void);
+#endif
+
 void *malloc(size_t size);
 void free(void *ptr);
 void abort(void);

@@ -19,6 +19,8 @@
 
 #include "terminal.h"
 
+#include "../portio.h"
+
 #include <string.h>
 
 size_t terminal_row;
@@ -55,7 +57,7 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
   
-void terminal_initialize(void)
+void terminal_init(void)
 {
 	terminal_row = 0;
 	terminal_column = 0;
