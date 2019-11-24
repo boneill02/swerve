@@ -41,5 +41,5 @@ void kmain(void)
 #endif
 
 	/* print welcome */
-	printf(version_info);
+	printf("%s\n", version_info);
 }

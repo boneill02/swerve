@@ -22,67 +22,50 @@ int printf(const char * restrict format, ...)
 
 	while (*format != '\0') {
 		size_t maxrem = INT_MAX - written;
-
-		if (format[0] != '%' || format[1] == '%') {
-			if (format[0] == '%')
-				format++;
-			size_t amount = 1;
-			while (format[amount] && format[amount] != '%')
-				amount++;
-			if (maxrem < amount)
-				/* TODO: EOVERFLOW */
-				return -1;
-			if (!print(format, amount))
-				return -1;
-
-			format += amount;
-			written += amount;
+		int checking = 0;
+		if (*format == '%') {
+			checking = 1;
+			format++;
 		}
 
-		const char *format_begun_at = format++;
+		char c;
+		char *str;
+		size_t len;
+		if (checking) {
+			switch (*format) {
+				case 'c':
+					c = (char) va_arg(parameters, int);
 
-		if (*format == 'c') {
-			format++;
-			char c = (char) va_arg(parameters, int);
+					if (!maxrem)
+						/* TODO: EOVERFLOW */
+						return -1;
+					if (!print(&c, sizeof(c)))
+						return -1;
+					written++;
+					break;
+				case 's':
+					str = va_arg(parameters, char *);
+					len = strlen(str);
 
-			if (!maxrem)
-				/* TODO: EOVERFLOW */
-				return -1;
-			if (!print(&c, sizeof(c)))
-				return -1;
+					if (maxrem < len)
+						/* TODO: EOVERFLOW */
+						return -1;
+					if (!print(str, len))
+						return -1;
 
-			written++;
-		} else if (*format == 's') {
-			format++;
-			const char *str = va_arg(parameters, const char *);
-			size_t len = strlen(str);
-
-			if (maxrem > len)
-				/* TODO: EOVERFLOW */
-				return -1;
-			if (!print(str, len))
-				return -1;
-
-			written += len;
-		} else if (*format == 'd') {
-			/* TODO: decimal integer printing */
-		} else if (*format == 'x') {
-			/* TODO: hexadecimal integer printing */
+					written += len;
+					break;
+				case '%':
+					print("%", 1);
+				default: break;
+			}
 		} else {
-			format = format_begun_at;
-			size_t len = strlen(format);
-
-			if (maxrem < len)
-				/* TODO: EOVERFLOW. */
-				return -1;
-			if (!print(format, len))
-				return -1;
-
-			written += len;
-			format += len;
+			print(format, 1);
 		}
+		format++;
 	}
 
 	va_end(parameters);
 	return written;
+			const char *format_begun_at = format++;
 }
