@@ -10,7 +10,7 @@ CC=$(ARCH_PREFIX)-gcc
 LD=$(CC)
 AR=$(ARCH_PREFIX)-ar
 RANLIB=$(ARCH_PREFIX)-ranlib
-ASFLAGS=-Wall
+ASFLAGS=-W
 CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG -D__is_libk
 CFLAGS= $(CPPFLAGS) -Wall -O3 -ffreestanding -fno-pie -std=c99 -pedantic -nostdinc \
 		-I$(SRC_DIR)/drivers -I$(LIBC_DIR)/include
