@@ -12,6 +12,7 @@ struct tty_controller {
 	int cursor_x, cursor_y, cursor_status;
 	Device *dev;
 	char *buffer;
+	size_t unwritten;
 };
 
 typedef struct {

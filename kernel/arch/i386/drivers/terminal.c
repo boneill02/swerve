@@ -21,12 +21,13 @@
 
 #include "../portio.h"
 
+#include <stdlib.h>
 #include <string.h>
 
-size_t terminal_row;
-size_t terminal_column;
+size_t terminal_row = 0;
+size_t terminal_column = 0;
 uint8_t terminal_color;
-uint16_t *terminal_buffer;
+uint16_t *terminal_buffer = (uint16_t *) 0xB8000;
 
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -59,11 +60,10 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
   
 void terminal_init(void)
 {
-	terminal_row = 0;
-	terminal_column = 0;
-	terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
-	terminal_buffer = (uint16_t *) 0xB8000;
+	terminal_dev = (Device *) malloc(sizeof(Device));
+	terminal_dev->write = terminal_write;
 
+	terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 	terminal_clear();
 }
 
@@ -121,6 +121,12 @@ void terminal_println(const char *data)
 {
 	terminal_print(data);
 	terminal_putchar('\n');
+}
+
+void terminal_write(Device *dev, void *data, size_t size)
+{
+	for (int i = 0; i < size; i++)
+		terminal_putchar(((char *) data)[i]);
 }
 
 void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)

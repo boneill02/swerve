@@ -87,3 +87,9 @@ void rs232_println(const char *str)
 	rs232_print(str);
 	rs232_putchar('\n');
 }
+
+void rs232_write(Device *dev, void *str, size_t len)
+{
+	for (int i = 0; i < len; i++)
+		rs232_putchar(((char *) str)[i]);
+}

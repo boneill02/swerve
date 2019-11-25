@@ -20,6 +20,8 @@
 #ifndef DRIVERS_TERMINAL_H
 #define DRIVERS_TERMINAL_H
 
+#include "../device.h"
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -33,5 +35,6 @@ void terminal_putchar(char);
 void terminal_print(const char *);
 void terminal_println(const char *);
 void terminal_clear(void);
+void terminal_write(Device *, void *, size_t);
 
 #endif

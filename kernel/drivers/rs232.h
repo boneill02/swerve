@@ -17,6 +17,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include <stddef.h>
+#include "../device.h"
+
 void rs232_init(void);
 int rs232_received(void);
 char rs232_getchar(void);
@@ -26,3 +29,4 @@ int rs232_is_transmit_empty(void);
 void rs232_putchar(char a);
 void rs232_print(const char *str);
 void rs232_println(const char *str);
+void rs232_write(Device *dev, void *str, size_t size);
