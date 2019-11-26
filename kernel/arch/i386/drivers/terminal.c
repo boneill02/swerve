@@ -60,9 +60,6 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
   
 void terminal_init(void)
 {
-	terminal_dev = (Device *) malloc(sizeof(Device));
-	terminal_dev->write = terminal_write;
-
 	terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 	terminal_clear();
 }
