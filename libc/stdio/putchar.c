@@ -10,10 +10,22 @@ void setty(int new_tty)
 }
 #endif
 
+int getchar(void)
+{
+	int c;
+#ifdef __is_libk
+	c = *((int *) ((Device *) ttys[current_tty])->read(NULL, 1));
+#else
+	/* TODO: syscall to implement putchar for userspace */
+#endif
+	return c;
+}
+
 int putchar(int ic)
 {
+	char c;
 #ifdef __is_libk
-	char c = (char) ic;
+	c = (char) ic;
 	((Device *)ttys[current_tty])->write((Device *) ttys[current_tty], &c, sizeof(c));
 #else
 	/* TODO: syscall to implement putchar for userspace */

@@ -26,6 +26,7 @@ void tty_init(void)
 	ttys[0]->controller.dev->write = terminal_write;
 
 	ttys[1]->controller.dev = malloc(sizeof(Device));
+	ttys[1]->controller.dev->read = rs232_read;
 	ttys[1]->controller.dev->write = rs232_write;
 }
 

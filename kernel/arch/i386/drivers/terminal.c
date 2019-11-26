@@ -96,7 +96,7 @@ void terminal_putchar(char c)
 			terminal_column = -1;
 			break;
 		default:
-			terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+			terminal_putentryat((char) c, terminal_color, terminal_column, terminal_row);
 	}
 
 	if (++terminal_column == VGA_WIDTH) {

@@ -21,6 +21,8 @@
 
 #include "../portio.h"
 
+#include <stdlib.h>
+
 #define PORT 0x3f8   /* COM1 */
  
 void rs232_init()
@@ -39,10 +41,9 @@ int rs232_received()
 	return inb(PORT + 5) & 1;
 }
  
-char rs232_getchar()
+int rs232_getchar()
 {
-	while (rs232_received() == 0);
- 
+	while (rs232_received() == 0); 
 	return inb(PORT);
 }
 
@@ -86,6 +87,14 @@ void rs232_println(const char *str)
 {
 	rs232_print(str);
 	rs232_putchar('\n');
+}
+
+void *rs232_read(Device *dev, size_t len)
+{
+	int *res = malloc(len * sizeof(int));
+	for (int i = 0; i < len; i++)
+		res[i] = rs232_getchar();
+	return (void *) res;
 }
 
 void rs232_write(Device *dev, void *str, size_t len)
