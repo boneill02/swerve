@@ -17,6 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifdef RS232_DRIVER
+#ifndef RS232_H
+#define RS232_H
+
 #include <stddef.h>
 #include "../device.h"
 
@@ -31,3 +35,6 @@ void rs232_print(const char *str);
 void rs232_println(const char *str);
 void *rs232_read(Device *dev, size_t len);
 void rs232_write(Device *dev, void *str, size_t size);
+
+#endif
+#endif

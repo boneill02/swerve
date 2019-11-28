@@ -31,10 +31,14 @@ const char *version_info = "swerve v" VERSION "-" ARCH;
 
 void kmain(void)
 {
-	/* initialize drivers */
+	/* initialize hardware drivers */
 	mem_init();
-	rs232_init();
 	terminal_init();
+#ifdef RS232_DRIVER
+	rs232_init();
+#endif
+
+	/* initialize software drivers */
 	tty_init();
 
 #ifdef DEBUG

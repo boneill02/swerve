@@ -17,14 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#include "../device.h"
 #include "rs232.h"
-
 #include "../portio.h"
 
 #include <stdlib.h>
 
 #define PORT 0x3f8   /* COM1 */
- 
+
+void rs232_init();
+int rs232_received();
+int rs232_getchar();
+void rs232_getline(char *str);
+int rs232_is_transmit_empty();
+void rs232_putchar(char a);
+void rs232_print(const char *str);
+void rs232_println(const char *str);
+void *rs232_read(Device *dev, size_t len);
+void rs232_write(Device *dev, void *str, size_t len);
+
+#ifdef RS232_DRIVER
+
 void rs232_init()
 {
 	outb(PORT + 1, 0x00);
@@ -102,3 +115,5 @@ void rs232_write(Device *dev, void *str, size_t len)
 	for (int i = 0; i < len; i++)
 		rs232_putchar(((char *) str)[i]);
 }
+
+#endif

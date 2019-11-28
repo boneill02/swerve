@@ -1,7 +1,10 @@
 #include "tty.h"
 
 #include "terminal.h"
+
+#ifdef RS232_DRIVER
 #include "rs232.h"
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,9 +28,11 @@ void tty_init(void)
 	ttys[0]->controller.dev = malloc(sizeof(Device));
 	ttys[0]->controller.dev->write = terminal_write;
 
+#ifdef RS232_DRIVER
 	ttys[1]->controller.dev = malloc(sizeof(Device));
 	ttys[1]->controller.dev->read = rs232_read;
 	ttys[1]->controller.dev->write = rs232_write;
+#endif
 }
 
 void *tty_read(Device *tty, size_t len)
@@ -37,7 +42,6 @@ void *tty_read(Device *tty, size_t len)
 
 void tty_write(Device *tty, void *str, size_t len)
 {
-	/* TODO fix so terminal and RS-232 work elegantly */
 	Device *dev = ((TTY_Device *) tty)->controller.dev;
 	dev->write(dev, str, len);
 }
