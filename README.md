@@ -4,7 +4,6 @@ A suckless-inspired Unix-like kernel originally designed for i386 machines. This
 is a work in progress. Please don't run this on real hardware. I take no
 responsibility for damages caused by swerve (code is licensed with no warranty).
 
-
 ## Principles
 
 1. The program should be **free software**.
