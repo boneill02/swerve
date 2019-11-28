@@ -2,6 +2,7 @@
 
 ## General Improvement
 
+1. VFS
 1. Userspace
 1. Better memory allocator (slab?) and paging
 1. Improve libc (maybe give it its own git repo too)
