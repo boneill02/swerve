@@ -16,9 +16,8 @@ all: $(TARGET)
 
 clean:
 	@echo CLEANING
-	@rm -rf $(LIBC_TARGET) $(shell find $(LIBC_DIR) | grep "\.o") $(TARGET) \
-		$(TARGET).iso grubimg $(wildcard $(SRC_DIR)/*.o) $(wildcard $(ARCH_SRC_DIR)/*.o) \
-		$(wildcard $(ARCH_SRC_DIR)/drivers/*.o) $(wildcard $(SRC_DIR)/mm/*.o)
+	@rm -rf $(LIBC_TARGET) $(TARGET) $(C_SOURCES:.c=.o) $(AS_SOURCES:.s=.o) \
+		$(LIBC_SOURCES:.c=.o)
 	@echo DONE
 
 dist: clean
