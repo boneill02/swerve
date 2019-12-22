@@ -48,22 +48,37 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
+/*
+ * Returns a VGA color set by combining foreground and background colors. This
+ * could probably be a preprocessor macro.
+ *
+ * TODO Maybe we should make this a preprocessor macro.
+ */
 static uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
 	return fg | bg << 4;
 }
  
+/*
+ * Generates a VGA entry by combining the character that is set to be printed
+ * and the color that character should be. Again, this can probably be
+ * implemented as a preprocessor macro.
+ *
+ * TODO Maybe we should make this a preprocessor macro.
+ */
 static uint16_t vga_entry(unsigned char uc, uint8_t color) 
 {
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
-  
+
+/* Sets the terminal color to the default value and clears it. */
 void terminal_init(void)
 {
 	terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 	terminal_clear();
 }
 
+/* Clears the terminal. */
 void terminal_clear(void)
 {
 	size_t x, y;
@@ -75,17 +90,20 @@ void terminal_clear(void)
 	}
 }
 
+/* Sets the color to a VGA color. */
 void terminal_setcolor(uint8_t color)
 {
 	terminal_color = color;
 }
 
+/* Puts a character at a specific place (x,y) in the terminal. */
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
+/* Puts a character at the current stored position in the terminal. */
 void terminal_putchar(char c)
 {
 	switch (c) {
@@ -95,6 +113,7 @@ void terminal_putchar(char c)
 			terminal_row++;
 			terminal_column = -1;
 			break;
+		/* TODO Add support for tabs. */
 		default:
 			terminal_putentryat((char) c, terminal_color, terminal_column, terminal_row);
 	}
@@ -106,6 +125,10 @@ void terminal_putchar(char c)
 	}
 } 
 
+/*
+ * Puts a null-terminated string at the current stored position in the terminal,
+ * not printing the null character.
+ */
 void terminal_print(const char *data)
 {
 	size_t i;
@@ -114,18 +137,24 @@ void terminal_print(const char *data)
 	}
 }
 
+/*
+ * Puts a null-terminated string at the current stored position in the terminal,
+ * not printing the null character. A newline is printed after.
+ */
 void terminal_println(const char *data)
 {
 	terminal_print(data);
 	terminal_putchar('\n');
 }
 
+/* Write wrapper for the Device type. */
 void terminal_write(Device *dev, void *data, size_t size)
 {
 	for (int i = 0; i < size; i++)
 		terminal_putchar(((char *) data)[i]);
 }
 
+/* Enable the VGA mode cursor with a specified position. */
 void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
 	outb(0x3D4, 0x0A);
@@ -135,12 +164,14 @@ void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 	outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
 }
 
+/* Disable the VGA mode cursor. */
 void terminal_disable_cursor(void)
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 }
 
+/* Place the VGA mode cursor at a specified position. */
 void terminal_put_cursor_at(uint8_t x, uint8_t y)
 {
 	uint16_t pos = y * VGA_WIDTH + x;
