@@ -2,7 +2,8 @@
 
 A suckless-inspired Unix-like kernel originally designed for i386 machines. This
 is a work in progress. Please don't run this on real hardware. I take no
-responsibility for damages caused by swerve (code is licensed with no warranty).
+responsibility for damages caused by swerve (the code is licensed with no
+warranty).
 
 ## Principles
 
@@ -26,8 +27,8 @@ responsibility for damages caused by swerve (code is licensed with no warranty).
 
 ## Building
 
-1. Run `make -j3` (note: you should change 3 with the number of cores you have
-   plus 1)
+1. Run `make -j2` (note: you should change 2 to the number of processor threads
+   you have)
 
 ## Run in QEMU
 

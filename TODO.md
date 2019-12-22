@@ -4,7 +4,7 @@
 
 1. VFS
 1. Userspace
-1. Better memory allocator (slab?) and paging
+1. Better memory allocator (slab?)
 1. Improve libc (maybe give it its own git repo too)
 1. Documentation
 1. Let user configure which drivers to include at compile time (curses menu?)
@@ -24,7 +24,6 @@
 1. Ext-2
 1. TTY
 1. SATA
-1. IDE
 1. NVMe
 1. Intel Integrated Graphics
 1. Sound Blaster 16
