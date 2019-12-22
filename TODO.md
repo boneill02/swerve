@@ -2,30 +2,30 @@
 
 ## General Improvement
 
-1. VFS
-1. Userspace
-1. Better memory allocator (slab?)
-1. Improve libc (maybe give it its own git repo too)
-1. Documentation
-1. Let user configure which drivers to include at compile time (curses menu?)
-1. Testing branch
-1. Get memory amount
-1. Multitasking
-1. Users
-1. Networking
-1. OS Logo
-1. Figure out and implement necessary syscalls
+- [ ] VFS
+- [ ] Userspace
+- [ ] Better memory allocator (slab?)
+- [ ] Improve libc (maybe give it its own git repo too)
+- [ ] Documentation
+- [ ] Let user configure which drivers to include at compile time (curses menu?)
+- [ ] Testing branch
+- [ ] Get memory amount
+- [ ] Multitasking
+- [ ] Users
+- [ ] Networking
+- [ ] OS Logo
+- [ ] Figure out and implement necessary syscalls
 
 ## Drivers
 
-1. PS/2 keyboard
-1. Clock
-1. FAT-32
-1. Ext-2
-1. TTY
-1. SATA
-1. NVMe
-1. Intel Integrated Graphics
-1. Sound Blaster 16
-1. PCI
-1. 802.11
+- [ ] PS/2 keyboard
+- [ ] Clock
+- [ ] FAT-32
+- [ ] Ext-2
+- [ ] TTY
+- [ ] SATA
+- [ ] NVMe
+- [ ] Intel Integrated Graphics
+- [ ] Sound Blaster 16
+- [ ] PCI
+- [ ] 802.11
