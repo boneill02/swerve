@@ -41,8 +41,8 @@ warranty).
 ## Copying
 
 All of the source code for the kernel and libc are licensed under the GNU GPL
-v3 (LICENSE.gpl), unless otherwise noted. All documentation (in the doc
-directory) is licensed under the GNU FDL v1.3 (LICENSE.gfdl), unless otherwise
-noted. All videos, images, and audio are licensed under the Creative Commons
-Attribution Share-Alike 3.0 License
+v3 (see LICENSE.gpl), unless otherwise noted. All documentation (in the doc
+directory) is licensed under the GNU FDL v1.3 (see LICENSE.gfdl), unless
+otherwise noted. All videos, images, and audio are licensed under the Creative
+Commons Attribution Share-Alike 3.0 Unported License
 (<http://creativecommons.org/licenses/by-sa/3.0/>).
