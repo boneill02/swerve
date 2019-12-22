@@ -27,6 +27,7 @@ warranty).
 
 ## Building
 
+1. Edit `config.mk` to your liking
 1. Run `make -j2` (note: you should change 2 to the number of processor threads
    you have)
 
