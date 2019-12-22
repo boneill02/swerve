@@ -1,3 +1,3 @@
-# Author List for `swerve`
+# Author List for swerve
 
 1. Ben O'Neill: <ben@benoneill.xyz>
