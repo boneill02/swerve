@@ -22,6 +22,10 @@
 
 #include <stddef.h>
 
+/*
+ * This is supposed to make device drivers act like files. You can read from and
+ * write to these devices like one would with any file on a Unix-like system.
+ */
 struct device_s {
 	void *(*read)(struct device_s *, size_t);
 	void (*write)(struct device_s *, void *, size_t);

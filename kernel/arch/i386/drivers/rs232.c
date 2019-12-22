@@ -38,6 +38,7 @@ void rs232_write(Device *dev, void *str, size_t len);
 
 #ifdef RS232_DRIVER
 
+/* Initialize RS-232 device */
 void rs232_init()
 {
 	outb(PORT + 1, 0x00);
@@ -49,17 +50,26 @@ void rs232_init()
 	outb(PORT + 4, 0x0B);
 }
 
+/* Check if there is anything waiting in the buffer */
 int rs232_received()
 {
 	return inb(PORT + 5) & 1;
 }
  
+/* Get the next character in the buffer */
 int rs232_getchar()
 {
 	while (rs232_received() == 0); 
 	return inb(PORT);
 }
 
+/*
+ * Put a line of text in the specified string. There are no safety mechanisms
+ * here to prevent against writing to other memory, so be careful. I should fix
+ * this.
+ *
+ * FIXME Add max length parameter for this function
+ */
 void rs232_getline(char *str)
 {
 	int receiving = 1, i = 0;
@@ -76,17 +86,26 @@ void rs232_getline(char *str)
 	str[i] = '\0';
 }
 
+/*
+ * Check if any output is currently being processed by the device (e.g. the
+ * device is busy).
+ */
 int rs232_is_transmit_empty()
 {
 	return inb(PORT + 5) & 0x20;
 }
  
+/* Send a character to the device */
 void rs232_putchar(char a)
 {
 	while (rs232_is_transmit_empty() == 0);
 	outb(PORT, a);
 }
 
+/*
+ * Print a null-terminated string to the device (not printing the null
+ * character).
+ */
 void rs232_print(const char *str)
 {
 	int i = 0;
@@ -96,12 +115,21 @@ void rs232_print(const char *str)
 	}
 }
 
+/*
+ * Print a null-terminated string to the device (not printing the null
+ * character) and put a newline after. This is just for convenience as calls
+ * like this may be performed often.
+ */
 void rs232_println(const char *str)
 {
 	rs232_print(str);
 	rs232_putchar('\n');
 }
 
+/*
+ * 	Read wrapper for the Device type. Allows for this driver to be used as a
+ * 	Device.
+ */
 void *rs232_read(Device *dev, size_t len)
 {
 	int *res = malloc(len * sizeof(int));
@@ -110,6 +138,10 @@ void *rs232_read(Device *dev, size_t len)
 	return (void *) res;
 }
 
+/*
+ * 	Write wrapper for the Device type. Allows for this driver to be used as a
+ * 	Device.
+ */
 void rs232_write(Device *dev, void *str, size_t len)
 {
 	for (int i = 0; i < len; i++)

@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Initialize all TTY devices, including special ones. */
 void tty_init(void)
 {
 	for (int i = 0; i < MAX_TTYS; i++) {
@@ -46,7 +47,6 @@ void tty_init(void)
 	/* Special TTYs */
 	ttys[0]->controller.dev = malloc(sizeof(Device));
 	ttys[0]->controller.dev->write = terminal_write;
-
 #ifdef RS232_DRIVER
 	ttys[1]->controller.dev = malloc(sizeof(Device));
 	ttys[1]->controller.dev->read = rs232_read;
@@ -54,11 +54,13 @@ void tty_init(void)
 #endif
 }
 
+/* Read a string of the specified length from TTY */
 void *tty_read(Device *tty, size_t len)
 {
 	return ((TTY_Device *) tty)->controller.buffer + strlen(((TTY_Device *) tty)->controller.buffer) - len;
 }
 
+/* Write a string of the specified length from TTY */
 void tty_write(Device *tty, void *str, size_t len)
 {
 	Device *dev = ((TTY_Device *) tty)->controller.dev;
