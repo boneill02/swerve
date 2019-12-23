@@ -3,10 +3,6 @@ include config.mk
 SRC_DIR=kernel
 ARCH_SRC_DIR=$(SRC_DIR)/arch/$(ARCH)
 
-LIBC_DIR=libc
-LIBC_TARGET=libc.a
-LIBC_SOURCES=$(patsubst %.c, %.o, $(shell find $(LIBC_DIR) | grep "\.c"))
-
 AS_SOURCES=$(patsubst %.s, %.o, $(wildcard $(ARCH_SRC_DIR)/*.s))
 C_SOURCES=$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/*.c)) \
 	$(patsubst %.c, %.o, $(wildcard $(SRC_DIR)/drivers/*.c)) \
@@ -16,8 +12,7 @@ all: $(TARGET)
 
 clean:
 	@echo CLEANING
-	@rm -rf $(LIBC_TARGET) $(TARGET) $(C_SOURCES:.c=.o) $(AS_SOURCES:.s=.o) \
-		$(LIBC_SOURCES:.c=.o)
+	@rm -rf $(TARGET) $(C_SOURCES:.c=.o) $(AS_SOURCES:.s=.o)
 	@echo DONE
 
 dist: clean
@@ -28,15 +23,9 @@ dist: clean
 	@gzip $(TARGET).tar
 	@echo DIST
 
-$(TARGET): $(LIBC_TARGET) $(C_SOURCES) $(AS_SOURCES)
-	@$(LD) -static -L. $(LDFLAGS) -o $@ $^ -lc
+$(TARGET): $(C_SOURCES) $(AS_SOURCES)
+	@$(LD) -static $(LDFLAGS) -o $@ $^ -lc
 	@echo LD $@
-
-$(LIBC_TARGET): $(LIBC_SOURCES)
-	@$(AR) rcs $(LIBC_TARGET) $(LIBC_SOURCES)
-	@echo AR $@
-	@$(RANLIB) $@
-	@echo RANLIB $@
 
 %.o: %.s
 	@$(AS) $(ASFLAGS) -o $@ -c $^
