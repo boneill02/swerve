@@ -24,6 +24,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define VGA_ENTRY_COLOR(fg,  bg) fg | bg << 4
+
 size_t terminal_row = 0;
 size_t terminal_column = 0;
 uint8_t terminal_color;
@@ -49,20 +51,9 @@ enum vga_color {
 };
 
 /*
- * Returns a VGA color set by combining foreground and background colors. This
- * could probably be a preprocessor macro.
- *
- * TODO Maybe we should make this a preprocessor macro.
- */
-static uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
-{
-	return fg | bg << 4;
-}
- 
-/*
  * Generates a VGA entry by combining the character that is set to be printed
- * and the color that character should be. Again, this can probably be
- * implemented as a preprocessor macro.
+ * and the color that character should be. This can probably be implemented
+ * as a preprocessor macro.
  *
  * TODO Maybe we should make this a preprocessor macro.
  */
@@ -74,7 +65,7 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
 /* Sets the terminal color to the default value and clears it. */
 void terminal_init(void)
 {
-	terminal_setcolor(vga_entry_color(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
+	terminal_setcolor(VGA_ENTRY_COLOR(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
 	terminal_clear();
 }
 
