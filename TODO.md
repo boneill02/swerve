@@ -5,7 +5,7 @@
 - [ ] VFS
 - [ ] Userspace
 - [ ] Better memory allocator (slab?)
-- [ ] Improve libc (maybe give it its own git repo too)
+- [ ] Improve libc
 - [ ] Documentation
 - [ ] Let user configure which drivers to include at compile time (curses menu?)
 - [ ] Testing branch
