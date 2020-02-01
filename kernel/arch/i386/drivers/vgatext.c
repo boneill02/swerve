@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "terminal.h"
+#include "vgatext.h"
 
 #include "../portio.h"
 
@@ -26,10 +26,9 @@
 
 #define VGA_ENTRY_COLOR(fg,  bg) fg | bg << 4
 
-size_t terminal_row = 0;
-size_t terminal_column = 0;
-uint8_t terminal_color;
-uint16_t *terminal_buffer = (uint16_t *) 0xB8000;
+size_t vgatext_row = 0, vgatext_column = 0;
+uint8_t vgatext_color;
+uint16_t *vgatext_buffer = (uint16_t *) 0xb8000;
 
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -62,113 +61,117 @@ static uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
 
-/* Sets the terminal color to the default value and clears it. */
-void terminal_init(void)
+/* Sets the color to the default value and clears it. */
+void vgatext_init(void)
 {
-	terminal_setcolor(VGA_ENTRY_COLOR(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
-	terminal_clear();
+	vgatext_setcolor(VGA_ENTRY_COLOR(VGA_COLOR_LIGHT_GREEN, VGA_COLOR_BLACK));
+	vgatext_clear();
 }
 
-/* Clears the terminal. */
-void terminal_clear(void)
+/* Clears the screen. */
+void vgatext_clear(void)
 {
 	size_t x, y;
 	for (y = 0; y < VGA_HEIGHT; y++) {
 		for (x = 0; x < VGA_WIDTH; x++) {
 			const size_t index = y * VGA_WIDTH + x;
-			terminal_buffer[index] = vga_entry(' ', terminal_color);
+			vgatext_buffer[index] = vga_entry(' ', vgatext_color);
 		}
 	}
 }
 
 /* Sets the color to a VGA color. */
-void terminal_setcolor(uint8_t color)
+void vgatext_setcolor(uint8_t color)
 {
-	terminal_color = color;
+	vgatext_color = color;
 }
 
-/* Puts a character at a specific place (x,y) in the terminal. */
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
+/* Puts a character at a specific place (x,y). */
+void vgatext_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	const size_t index = y * VGA_WIDTH + x;
-	terminal_buffer[index] = vga_entry(c, color);
+	vgatext_buffer[index] = vga_entry(c, color);
 }
 
-/* Puts a character at the current stored position in the terminal. */
-void terminal_putchar(char c)
+/* Puts a character at the current stored position. */
+void vgatext_putchar(char c)
 {
 	switch (c) {
 		case '\0':
 			break;
 		case '\n':
-			terminal_row++;
-			terminal_column = -1;
+			vgatext_row++;
+			vgatext_column = -1;
 			break;
 		/* TODO Add support for tabs. */
 		default:
-			terminal_putentryat((char) c, terminal_color, terminal_column, terminal_row);
+			vgatext_putentryat((char) c, vgatext_color, vgatext_column,
+					vgatext_row);
 	}
 
-	if (++terminal_column == VGA_WIDTH) {
-		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+	if (++vgatext_column == VGA_WIDTH) {
+		vgatext_column = 0;
+		if (++vgatext_row == VGA_HEIGHT)
+			vgatext_row = 0;
 	}
 } 
 
 /*
- * Puts a null-terminated string at the current stored position in the terminal,
- * not printing the null character.
+ * Puts a null-terminated string at the current stored position, not printing
+ * the null character.
  */
-void terminal_print(const char *data)
+void vgatext_print(const char *data)
 {
 	size_t i;
 	for (i = 0; i < strlen(data); i++) {
-		terminal_putchar(data[i]);
+		vgatext_putchar(data[i]);
 	}
 }
 
 /*
- * Puts a null-terminated string at the current stored position in the terminal,
- * not printing the null character. A newline is printed after.
+ * Puts a null-terminated string at the current stored position, not printing
+ * the null character. A newline is printed after.
  */
-void terminal_println(const char *data)
+void vgatext_println(const char *data)
 {
-	terminal_print(data);
-	terminal_putchar('\n');
+	vgatext_print(data);
+	vgatext_putchar('\n');
 }
 
-/* Write wrapper for the Device type. */
-void terminal_write(Device *dev, void *data, size_t size)
+/* write() wrapper for the Device type. */
+void vgatext_write(Device *dev, void *data, size_t size)
 {
+	/* this could use vgatext_print(), but it may not be null terminated */
 	for (int i = 0; i < size; i++)
-		terminal_putchar(((char *) data)[i]);
+		vgatext_putchar(((char *) data)[i]);
 }
 
-/* Enable the VGA mode cursor with a specified position. */
-void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+/* Enable the VGA cursor. */
+void vgatext_enablecursor(void)
 {
 	outb(0x3D4, 0x0A);
-	outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
+	outb(0x3D5, (inb(0x3D5) & 0xC0));
 
 	outb(0x3D4, 0x0B);
-	outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
+	outb(0x3D5, (inb(0x3D5) & 0xE0));
 }
 
 /* Disable the VGA mode cursor. */
-void terminal_disable_cursor(void)
+void vgatext_disablecursor(void)
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 }
 
 /* Place the VGA mode cursor at a specified position. */
-void terminal_put_cursor_at(uint8_t x, uint8_t y)
+void vgatext_putcursorat(uint8_t x_start, uint8_t y_start, uint8_t x_end,
+		uint8_t y_end)
 {
-	uint16_t pos = y * VGA_WIDTH + x;
+	uint16_t cursor_start = y_start * VGA_WIDTH + x_start;
+	uint16_t cursor_end = y_end * VGA_WIDTH + x_end;
 
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t) (pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
+	outb(0x3D4, 0x0B);
+	outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
 }

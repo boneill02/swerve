@@ -23,7 +23,7 @@
 
 #include "kmain.h"
 
-#include "drivers/terminal.h"
+#include "drivers/vgatext.h"
 #include "drivers/tty.h"
 #include "drivers/rs232.h"
 
@@ -33,7 +33,7 @@ void kmain(void)
 {
 	/* initialize hardware drivers */
 	mem_init();
-	terminal_init();
+	vgatext_init();
 #ifdef RS232_DRIVER
 	rs232_init();
 #endif

@@ -19,7 +19,7 @@
 
 #include "tty.h"
 
-#include "terminal.h"
+#include "vgatext.h"
 
 #ifdef RS232_DRIVER
 #include "rs232.h"
@@ -46,7 +46,7 @@ void tty_init(void)
 
 	/* Special TTYs */
 	ttys[0]->controller.dev = malloc(sizeof(Device));
-	ttys[0]->controller.dev->write = terminal_write;
+	ttys[0]->controller.dev->write = vgatext_write;
 #ifdef RS232_DRIVER
 	ttys[1]->controller.dev = malloc(sizeof(Device));
 	ttys[1]->controller.dev->read = rs232_read;

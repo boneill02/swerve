@@ -17,8 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#ifndef DRIVERS_TERMINAL_H
-#define DRIVERS_TERMINAL_H
+#ifndef DRIVERS_VGATEXT_H
+#define DRIVERS_VGATEXT_H
 
 #include "../device.h"
 
@@ -28,13 +28,16 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
-void terminal_init(void);
-void terminal_setcolor(uint8_t);
-void terminal_putentryat(char, uint8_t, size_t, size_t);
-void terminal_putchar(char);
-void terminal_print(const char *);
-void terminal_println(const char *);
-void terminal_clear(void);
-void terminal_write(Device *, void *, size_t);
+void vgatext_clear(void);
+void vgatext_disablecursor(void);
+void vgatext_enablecursor(void);
+void vgatext_init(void);
+void vgatext_print(const char *);
+void vgatext_println(const char *);
+void vgatext_putcursorat(uint8_t, uint8_t, uint8_t, uint8_t);
+void vgatext_putentryat(char, uint8_t, size_t, size_t);
+void vgatext_putchar(char);
+void vgatext_setcolor(uint8_t);
+void vgatext_write(Device *, void *, size_t);
 
 #endif
