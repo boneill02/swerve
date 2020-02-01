@@ -1,16 +1,16 @@
 # swerve
 
-A suckless-inspired Unix-like kernel originally designed for i386 machines. This
-is a work in progress. Please don't run this on real hardware. I take no
-responsibility for damages caused by swerve (the code is licensed with no
-warranty).
+A suckless-inspired Unix-like monolithic kernel originally designed for i386
+machines. This is a work in progress. Please don't run this on real hardware.
+I take no responsibility for damages caused by swerve (the code is licensed
+with no warranty).
 
 ## Principles
 
 1. The program should be **free software**.
-1. The program should be as **efficient** as possible.
-1. The program should be as **legible** as possible.
-1. The program should be as **small** as possible.
+2. The program should be as **efficient** as possible.
+3. The program should be as **legible** as possible.
+4. The program should be as **small** as possible.
 
 ## Prerequisites for building
 
@@ -28,7 +28,7 @@ warranty).
 ## Building
 
 1. Edit `config.mk` to your liking
-1. Run `make -j2` (note: you should change 2 to the number of processor threads
+2. Run `make -j2` (note: you should change 2 to the number of processor threads
    you have)
 
 ## Run in QEMU
