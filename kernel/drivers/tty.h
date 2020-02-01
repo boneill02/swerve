@@ -21,7 +21,7 @@
 #define DRIVERS_TTY_H
 
 #define TAB_SIZE 4
-#define MAX_TTYS 16
+#define MAX_TTYS 8
 
 #include <stddef.h>
 #include "../device.h"
