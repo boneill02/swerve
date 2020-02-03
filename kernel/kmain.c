@@ -42,12 +42,15 @@ void kmain(void)
 	tty_init();
 
 #ifdef DEBUG
+	setty(2);
 	printf("* Initialized drivers\n");
 #endif
 
 	/* print welcome */
+	setty(1);
 	const char *welcome = "welcome to swerve!";
 	printf("%s\n", welcome);
+	setty(2);
 #ifdef RS232_DRIVER
 	setty(2);
 	printf("%s\n", welcome);

@@ -9,15 +9,15 @@ LIBC_LIB_DIR = "-L/usr/local/lib/swerve"
 
 DRIVERS = -DRS232_DRIVER
 
-AS=$(ARCH_PREFIX)-as
-CC=$(ARCH_PREFIX)-gcc
-LD=$(CC)
-AR=$(ARCH_PREFIX)-ar
-RANLIB=$(ARCH_PREFIX)-ranlib
-ASFLAGS=-W
+AS = $(ARCH_PREFIX)-as
+CC = $(ARCH_PREFIX)-gcc
+LD = $(CC)
+AR = $(ARCH_PREFIX)-ar
+RANLIB = $(ARCH_PREFIX)-ranlib
+ASFLAGS = -W
 CPPFLAGS = -DARCH="\"$(ARCH)\"" -DVERSION="\"$(VERSION)\"" -DDEBUG -D__is_libk $(DRIVERS)
-CFLAGS= $(CPPFLAGS) -Wall -O3 -ffreestanding -fno-pie -std=c99 -pedantic -nostdinc \
+CFLAGS = $(CPPFLAGS) -Wall -O3 -ffreestanding -fno-pie -std=c99 -pedantic -nostdinc \
 		-I$(SRC_DIR)/drivers $(LIBC_INCLUDE)
-LDFLAGS= -nostdlib -static -ffreestanding -fno-stack-protector \
+LDFLAGS = -nostdlib -static -ffreestanding -fno-stack-protector \
 		 -fPIC -T$(ARCH_SRC_DIR)/linker.ld $(LIBC_LIB_DIR)
-TARGET=swerve
+TARGET = swerve
