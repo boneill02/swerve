@@ -40,8 +40,8 @@ void tty_init(void)
 		ttys[i]->controller.buffer = malloc(8192);
 		ttys[i]->controller.unwritten = 0;
 		ttys[i]->controller.dev = NULL;
-		((Device *)ttys[i])->read = tty_read;
-		((Device *)ttys[i])->write = tty_write;
+		((Device *) ttys[i])->read = tty_read;
+		((Device *) ttys[i])->write = tty_write;
 	}
 
 	/* Special TTYs */

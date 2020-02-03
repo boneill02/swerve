@@ -46,5 +46,10 @@ void kmain(void)
 #endif
 
 	/* print welcome */
-	printf("%s\n", version_info);
+	const char *welcome = "welcome to swerve!";
+	printf("%s\n", welcome);
+#ifdef RS232_DRIVER
+	setty(2);
+	printf("%s\n", welcome);
+#endif
 }
