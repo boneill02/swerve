@@ -29,3 +29,5 @@
 - [ ] Sound Blaster 16
 - [ ] PCI
 - [ ] 802.11
+- [ ] USTAR
+- [ ] ACPI
