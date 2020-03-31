@@ -50,7 +50,6 @@ void kmain(void)
 	setty(1);
 	const char *welcome = "welcome to swerve!";
 	printf("%s\n", welcome);
-	setty(2);
 #ifdef RS232_DRIVER
 	setty(2);
 	printf("%s\n", welcome);
