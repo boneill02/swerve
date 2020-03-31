@@ -22,6 +22,7 @@
 - [ ] Clock
 - [ ] FAT-32
 - [ ] Ext-2
+- [ ] UFS
 - [ ] TTY
 - [ ] SATA
 - [ ] NVMe
