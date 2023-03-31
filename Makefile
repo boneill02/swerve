@@ -50,7 +50,7 @@ run-qemu: $(TARGET)
 	qemu-system-$(ARCH) -serial stdio -kernel $(TARGET)
 
 run-qemu-grub: $(TARGET).iso
-	qemu-system-$(ARCH) -serial stdio $(TARGET).iso
+	qemu-system-$(ARCH) -m 128 -smp 1 -vga std -serial stdio $(TARGET).iso
 
 toolchain:
 	cd toolchain && ./build-toolchain.sh
