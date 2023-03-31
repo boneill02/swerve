@@ -22,7 +22,7 @@ ENTRY(_start)
 
 SECTIONS
 {
-	/* we need 1MB of space atleast */
+	/* we need 1MB of space at least */
 	. = 1M;
 
 	/* text section */

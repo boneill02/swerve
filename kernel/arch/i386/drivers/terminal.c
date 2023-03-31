@@ -141,8 +141,7 @@ void terminal_println(const char *data)
 /* Write wrapper for the Device type. */
 void terminal_write(Device *dev, void *data, size_t size)
 {
-	for (int i = 0; i < size; i++)
-		terminal_putchar(((char *) data)[i]);
+	terminal_print(data);
 }
 
 /* Enable the VGA mode cursor with a specified position. */

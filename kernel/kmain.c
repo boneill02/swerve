@@ -24,7 +24,6 @@
 #include "kmain.h"
 
 #include "drivers/terminal.h"
-#include "drivers/tty.h"
 #include "drivers/rs232.h"
 
 const char *version_info = "swerve v" VERSION "-" ARCH;
@@ -37,21 +36,10 @@ void kmain(void)
 #ifdef RS232_DRIVER
 	rs232_init();
 #endif
-
-	/* initialize software drivers */
-	tty_init();
-
-#ifdef DEBUG
-	setty(2);
-	printf("* Initialized drivers\n");
-#endif
-
 	/* print welcome */
-	setty(1);
 	const char *welcome = "welcome to swerve!";
-	printf("%s\n", welcome);
+	terminal_println(welcome);
 #ifdef RS232_DRIVER
-	setty(2);
-	printf("%s\n", welcome);
+	rs232_println(version_info);
 #endif
 }

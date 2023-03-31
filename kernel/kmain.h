@@ -17,7 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef KMAIN_H
+
+#define KMAIN_H
 #define PROC_MEMORY_BASE    0xC0000000
 #define PROC_MEMORY_CEILING 0xFFFFFED8
 #define KERN_MEMORY_BASE    0x10000
 #define KERN_MEMORY_CEILING 0xBFFFFFFF
+
+#endif

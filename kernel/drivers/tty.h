@@ -39,7 +39,7 @@ typedef struct {
 	struct tty_controller controller;
 } TTY_Device;
 
-TTY_Device *ttys[MAX_TTYS];
+static TTY_Device *ttys[MAX_TTYS];
 
 void tty_init(void);
 void *tty_read(Device *, size_t);
