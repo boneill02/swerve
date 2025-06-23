@@ -2,8 +2,6 @@
 
 A suckless-inspired Unix-like monolithic kernel originally designed for i386
 machines. This is a work in progress. Please don't run this on real hardware.
-I take no responsibility for damages caused by swerve (the code is licensed
-with no warranty).
 
 ## Principles
 
@@ -28,8 +26,7 @@ with no warranty).
 ## Building
 
 1. Edit `config.mk` to your liking
-2. Run `make -j2` (note: you should change 2 to the number of processor threads
-   you have)
+2. `make`
 
 ## Run in QEMU
 
@@ -46,4 +43,4 @@ v3 (see LICENSE.gpl), unless otherwise noted. All documentation (in the doc
 directory) is licensed under the GNU FDL v1.3 (see LICENSE.gfdl), unless
 otherwise noted. All videos, images, and audio are licensed under the Creative
 Commons Attribution Share-Alike 3.0 Unported License
-(<http://creativecommons.org/licenses/by-sa/3.0/>).
+(<http://creativecommons.org/licenses/by-sa/3.0/>) unless otherwise noted.
