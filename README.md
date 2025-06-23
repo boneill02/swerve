@@ -12,9 +12,8 @@ machines. This is a work in progress. Please don't run this on real hardware.
 
 ## Prerequisites for building
 
-* [GNU Binutils cross-compiled for
-  swerve](https://gitlab.com/swegbun/swerve-binutils)
-* [GCC cross-compiled for swerve](https://gitlab.com/swegbun/swerve-gcc)
+* GNU Binutils cross-compiled for swerve
+* GCC cross-compiled for swerve
 * GNU Make
 * A POSIX shell (`dash`, `bash`, ...)
 
